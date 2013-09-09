@@ -14,5 +14,5 @@ Meteor.methods
       column: playerIndex
       lives: 3
       isLeftPressed: false
-      isRightPressed: true
+      isRightPressed: false
 
