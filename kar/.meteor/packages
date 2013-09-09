@@ -8,3 +8,5 @@ autopublish
 insecure
 preserve-inputs
 coffeescript
+iron-router
+spin
