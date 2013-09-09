@@ -2,22 +2,17 @@
 
 # ASCII code for !
 CODE_START = 33
-CODE_END = 127
-MAX_OFFSET = CODE_END - CODE_START
-
-# Resets when server restarts
-nextOffset = 0
-
-getNextChar = ->
-  char = String.fromCharCode CODE_START + nextOffset
-  nextOffset = (nextOffset + 1) % (MAX_OFFSET + 1)
-  char
 
 Meteor.methods
   register: ->
+    if Meteor.isServer
+      if GameState.isRunning or GameState.numPlayers >= MAX_COLUMN
+        return
+      playerIndex = GameState.numPlayers++
     Players.insert
-      symbol: getNextChar()
+      symbol: String.fromCharCode playerIndex + CODE_START
+      column: playerIndex
       lives: 3
       isLeftPressed: false
-      isRightPressed: false
+      isRightPressed: true
 
