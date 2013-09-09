@@ -10,3 +10,5 @@ preserve-inputs
 coffeescript
 iron-router
 spin
+fastclick
+bootstrap
