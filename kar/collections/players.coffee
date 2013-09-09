@@ -5,6 +5,7 @@ CODE_START = 33
 CODE_END = 127
 MAX_OFFSET = CODE_END - CODE_START
 
+# Resets when server restarts
 nextOffset = 0
 
 getNextChar = ->
@@ -17,4 +18,6 @@ Meteor.methods
     Players.insert
       symbol: getNextChar()
       lives: 3
+      isLeftPressed: false
+      isRightPressed: false
 
