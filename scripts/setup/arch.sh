@@ -9,18 +9,13 @@ usage() {
 
     Usage:
 
-        arch.sh [-A]
-
-    -A  do not install AUR packages
+        arch.sh
 "
     exit 1
 }
 
-should_install_aur_packages=true
-
-while getopts :A opt; do
+while getopts : opt; do
     case "${opt}" in
-        A) should_install_aur_packages=false ;;
         \?|*) usage ;;
     esac
 done
@@ -41,13 +36,6 @@ source scripts/setup/arch-tasks.sh
 add_archlinuxfr_repo
 install_system_packages
 
-if $should_install_aur_packages; then
-    install_aur_packages
-fi
-unset should_install_aur_packages
-
-create_ve
-install_python_packages
+install_meteor
 install_global_node_packages
-install_node_packages
 

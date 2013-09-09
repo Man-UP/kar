@@ -4,14 +4,10 @@
 
 REPO=$(realpath "$(dirname "$(realpath -- "${BASH_SOURCE[0]}")")/../..")
 
-AUR_PACKAGES=( )
-
 ENV=$REPO/env
 
 NODE_GLOBAL_PACKAGES=(
-    'bower'
     'meteorite'
-    'grunt-cli'
 )
 
 PYTHON_PACKAGES=( )
@@ -19,9 +15,9 @@ PYTHON_PACKAGES=( )
 PYTHON_VERSION=2.7
 
 SYSTEM_PACKAGES=(
+    'curl'
     'git'
     'nodejs'
-    'python2-virtualenv'
     'yaourt'
 )
 
@@ -44,50 +40,15 @@ create_ve() {
     "virtualenv-$PYTHON_VERSION" "$ENV"
 }
 
-install_aur_packages() {
-    yaourt --needed --noconfirm --sync "${AUR_PACKAGES[@]}"
-}
-
 install_global_node_packages() {
     sudo npm install --global "${NODE_GLOBAL_PACKAGES[@]}"
 }
 
-install_node_packages() {
-    npm install
-}
-
-install_python_packages() {
-    _ve _install_python_packages
-}
-
-_install_python_packages() {
-    local package
-    for package in "${PYTHON_PACKAGES[@]}"; do
-        pip install "$package"
-    done
+install_meteor() {
+    curl https://install.meteor.com | sh
 }
 
 install_system_packages() {
     sudo pacman --needed --noconfirm --refresh --sync "${SYSTEM_PACKAGES[@]}"
-}
-
-
-# =============================================================================
-# = Helpers                                                                   =
-# =============================================================================
-
-_allow_unset() {
-    local restore=$(set +o | grep nounset)
-    set +o nounset
-    "${@}"
-    local exit_status=$?
-    $restore
-    return $exit_status
-}
-
-_ve() {
-    _allow_unset source "$ENV/bin/activate"
-    "${@}"
-    _allow_unset deactivate
 }
 
