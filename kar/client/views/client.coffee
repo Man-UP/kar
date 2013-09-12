@@ -78,12 +78,20 @@ Template.client.rendered = ->
 
   setHandler = ->
     if not @canvasHandler?
-      @canvasHandler = Deps.autorun ->
+      @canvasHandler = Deps.autorun =>
         currentPlayer = Players.findOne Session.get 'playerId'
         context.clearRect 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT
         context.drawImage rightArrow, arrowWidth, 0, arrowWidth, CANVAS_HEIGHT
         context.drawImage leftArrow, 0, 0, arrowWidth,  CANVAS_HEIGHT
         if currentPlayer?
+          if not @lives
+            @lives = currentPlayer.lives
+          else
+            if @lives > currentPlayer.lives
+              @lives = currentPlayer.lives
+              context.fillStyle = '#ff0000'
+              context.fillRect 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT
+
           if currentPlayer.lives > 0
             x = arrowWidth
             context.fillStyle = '#cccc78'
