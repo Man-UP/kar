@@ -44,6 +44,7 @@ Template.view.rendered = ->
     playerY = PLAYER_ROW * cellHeight
 
     ctx.clearRect 0, 0, width, height
+    ctx.fillStyle = '#000'
 
     for row, rowIndex in world
       cellY = cellHeight * rowIndex
@@ -57,10 +58,13 @@ Template.view.rendered = ->
     Players.find().forEach (player) ->
       playerX = player.column * cellWidth
       symbol = if player.lives == 0
-        'D'
+        ctx.fillStyle = '#900'
+        'X'
       else if playerRow[player.column] == ROCK
-        'C'
+        ctx.fillStyle = '#f00'
+        player.lives
       else
+        ctx.fillStyle = '#000'
         player.symbol
 
       ctx.fillText symbol, playerX, playerY
