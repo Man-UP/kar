@@ -12,7 +12,8 @@
 @EMPTY = 0
 @ROCK = 1
 
-@ROCK_PROB = 0.01
+@TURN_DURATION_MS = 100
+@ROCK_PROB = 0.005
 
 @Games = new Meteor.Collection 'games'
 
@@ -49,7 +50,7 @@ Meteor.methods
     unless game.state == READY
       return false
     if Meteor.isServer
-      GameState.mainLoopHandle = Meteor.setInterval mainLoop, 50
+      GameState.mainLoopHandle = Meteor.setInterval mainLoop, TURN_DURATION_MS
     Games.update GAME_ID, $set: state: STARTED
     true
 
@@ -92,12 +93,12 @@ mainLoop = ->
     if playerRow[player.column] == ROCK and player.lives > 0
       Players.update player._id, $inc: lives: -1
 
-  if Players.find(lives: gt: 0).count() == 0
+  if Players.find(lives: $gt: 0).count() == 0
+    ensureMainLoopStopped()
     Games.update GAME_ID, $set: state: FINISHED
 
 ensureMainLoopStopped = ->
   if Meteor.isServer and GameState.mainLoopHandle?
     Meteor.clearInterval GameState.mainLoopHandle
     GameState.mainLoopHandle = null
-
 
