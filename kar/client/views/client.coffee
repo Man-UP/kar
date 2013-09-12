@@ -2,6 +2,22 @@ Meteor.startup ->
   Session.set 'key', null
 
 Template.client.created = ->
+  # XXX: can't catch global keypresses using the event mapping in templates
+  # so do it here instead.
+  $(document).on 'keydown', (e) ->
+    if e.keyCode == 37
+      leftKeyPress()
+    # right key
+    else if e.keyCode == 39
+      rightKeyPress()
+  $(document).on 'keyup', (e) ->
+    if e.keyCode = 37
+      leftKeyUp()
+    else if e.keyCode == 39
+      rightKeyUp()
+
+
+
   Deps.autorun ->
     playerId = Session.get 'playerId'
     player = Players.findOne playerId
@@ -102,6 +118,25 @@ updateCurrentPlayer = (doc) ->
     Players.update playerId,
       $set: doc
 
+leftKeyPress = ->
+  Session.set 'key', 'left'
+  updateCurrentPlayer(isLeftPressed: true)
+
+rightKeyPress = ->
+  Session.set 'key', 'right'
+  updateCurrentPlayer(isRightPressed: true)
+
+leftKeyUp = ->
+  Session.set 'key', null
+  updateCurrentPlayer
+    isLeftPressed: false
+    isRightPressed: false
+
+rightKeyUp = ->
+  Session.set 'key', null
+  updateCurrentPlayer(isRightPressed: false)
+
+
 Template.client.events
   'touchstart .left': (e) ->
     console.log e
@@ -109,30 +144,26 @@ Template.client.events
     updateCurrentPlayer(isLeftPressed: true)
     $(e.target).one('touchend', ->
       Session.set 'key', null
-      updateCurrentPlayer(isLeftPressed: false)
+      updateCurrentPlayer
+        isLeftPressed: false
+        isRightPressed: false
     )
 
-  'mousedown .left': (e) ->
-    Session.set 'key', 'left'
-    updateCurrentPlayer(isLeftPressed: true)
+  'mousedown .left': leftKeyPress
 
-  'mouseup .left': ->
-    Session.set 'key', null
-    updateCurrentPlayer(isLeftPressed: false)
+  'mouseup .left': leftKeyUp
 
   'touchstart .right': (e) ->
     Session.set 'key', 'right'
     updateCurrentPlayer(isRightPressed: true)
     $(e.target).one('touchend', ->
       Session.set 'key', null
-      updateCurrentPlayer(isRightPressed: false)
+      updateCurrentPlayer
+        isLeftPressed: false
+        isRightPressed: false
     )
 
-  'mousedown .right': (e) ->
-    Session.set 'key', 'right'
-    updateCurrentPlayer(isRightPressed: true)
+  'mousedown .right': rightKeyPress
 
-  'mouseup .right': ->
-    Session.set 'key', null
-    updateCurrentPlayer(isRightPressed: false)
+  'mouseup .right': rightKeyUp
 
