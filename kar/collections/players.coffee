@@ -5,10 +5,12 @@ CODE_START = 33
 
 Meteor.methods
   register: ->
+    game = Games.getGame()
     if Meteor.isServer
-      if GameState.isRunning or GameState.numPlayers >= MAX_COLUMN
+      if game.isStarted or game.numPlayers >= game.maxPlayers
         return
-      playerIndex = GameState.numPlayers++
+      playerIndex = game.numPlayers
+      Games.update GAME_ID, $inc: numPlayers: 1
     Players.insert
       symbol: String.fromCharCode playerIndex + CODE_START
       column: playerIndex
