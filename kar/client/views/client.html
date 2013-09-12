@@ -1,16 +1,6 @@
 <template name="client">
-  <div class="controller {{isActive 'left'}} left">
-    <img src="arrow-left.png"/>
-  </div>
-  <div class="controller {{isActive 'right'}} right">
-    <img src="arrow-right.png"/>
-  </div>
-  {{#if playerSymbol}}
-  <div class="info">
-    You are the
-  </div>
-  {{/if}}
-  <div class="symbol">
-    {{playerSymbol}}
-  </div>
+  <canvas class="controller" id="controller-background"></canvas>
+  <canvas class="controller" id="controller"></canvas>
+  <div class="left overlay"></div>
+  <div class="right overlay"></div>
 </template>
