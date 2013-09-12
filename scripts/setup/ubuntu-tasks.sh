@@ -11,6 +11,8 @@ NODE_GLOBAL_PACKAGES=(
 SYSTEM_PACKAGES=(
     'curl'
     'git'
+    'google-chrome'
+    'xdotool'
 )
 
 
