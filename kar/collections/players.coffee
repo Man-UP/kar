@@ -17,4 +17,5 @@ Meteor.methods
       lives: 3
       isLeftPressed: false
       isRightPressed: false
+      score: 0
 
