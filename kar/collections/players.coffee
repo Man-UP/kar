@@ -7,7 +7,7 @@ Meteor.methods
   register: ->
     game = Games.getGame()
     if Meteor.isServer
-      if game.isStarted or game.numPlayers >= game.maxPlayers
+      if game.state != READY or game.numPlayers >= MAX_PLAYERS
         return
       playerIndex = game.numPlayers
       Games.update GAME_ID, $inc: numPlayers: 1
