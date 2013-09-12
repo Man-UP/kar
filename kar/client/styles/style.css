@@ -75,3 +75,17 @@ body {
   -webkit-text-stroke-color: black;
 }
 
+.podium {
+  margin: 0 auto;
+  width: 300px;
+  text-align: center;
+}
+
+.podium h1 {
+  text-align: center;
+}
+
+.podium ol {
+  font-size: 200%;
+}
+

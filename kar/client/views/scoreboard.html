@@ -1,9 +1,14 @@
 <template name="scoreboard">
+<div class="podium">
+  <h1>The Podium</h1>
+  <div class="podium">
   <ol>
     {{#each players}}
-      <li>{{symbol}} ({{score}})</li>
+    <li><strong>{{symbol}}</strong> {{score}}m</li>
     {{/each}}
   </ol>
   <a href="{{pathFor 'view'}}">Back to game</a>
+  </div>
+</div>
 </template>
 
