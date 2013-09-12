@@ -27,6 +27,8 @@ Template.view.rendered = ->
 
   @handle = Deps.autorun ->
     game = Games.getGame()
+    if game.state == FINISHED
+      Router.go 'scoreboard'
     world = game.world
 
     width = canvas.width

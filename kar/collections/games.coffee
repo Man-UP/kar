@@ -59,7 +59,7 @@ mainLoop = ->
   world = game.world
 
   # Move players
-  Players.find().forEach (player) ->
+  Players.find(lives: $gt: 0).forEach (player) ->
     modifier = $inc: score: 1
 
     # Move player
