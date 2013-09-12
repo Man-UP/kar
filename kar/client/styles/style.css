@@ -1,11 +1,36 @@
+/* CSS declarations go here */
+
+body {
+  padding: 0px;
+  margin: 0px;
+  image-rendering: -webkit-optimize-contrast;
+}
+
 .controller {
-  background-color: #c2c9ff;
-  color: white;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  image-rendering: -webkit-optimize-contrast;
+}
+
+#controller-background {
+  z-index: -1;
+}
+
+#controller {
+  z-index: 1;
+  image-rendering: -moz-crisp-edges;         /* Firefox */
+  image-rendering:   -o-crisp-edges;         /* Opera */
+  image-rendering: -webkit-optimize-contrast;/* Webkit (non-standard naming) */
+  image-rendering: crisp-edges;
+  -ms-interpolation-mode: nearest-neighbor;  /* IE (non-standard property) */
+}
+
+.overlay {
   top: 0px;
   bottom: 0px;
-  text-align: center;
   width: 50%;
-  z-index: -1;
+  z-index: 2;
 }
 
 .controller img {
