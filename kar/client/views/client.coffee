@@ -25,6 +25,8 @@ CANVAS_WIDTH = 320
 CANVAS_HEIGHT = 240
 SYMBOL_SIZE = CANVAS_WIDTH / 4
 
+BUTTON_PRESS_BG_COLOR = "ffc6c8"
+
 Template.client.rendered = ->
   arrowWidth = CANVAS_WIDTH / 2
   arrowHeight = CANVAS_HEIGHT / 2
@@ -37,11 +39,10 @@ Template.client.rendered = ->
     @backgroundHandler = Deps.autorun ->
       key = Session.get 'key'
       backgroundContext.clearRect 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT
+      backgroundContext.fillStyle = BUTTON_PRESS_BG_COLOR
       if key == 'left'
-        backgroundContext.fillStyle = '#ff0000'
         backgroundContext.fillRect 0, 0, arrowWidth, CANVAS_HEIGHT
       else if key == 'right'
-        backgroundContext.fillStyle = '#ff0000'
         backgroundContext.fillRect arrowWidth, 0, arrowWidth, CANVAS_HEIGHT
 
   canvas = @find '#controller'
@@ -67,7 +68,10 @@ Template.client.rendered = ->
           x = arrowWidth
           context.font="#{SYMBOL_SIZE}px Arial"
           context.textAlign = 'center'
+          context.fillStyle = '#45ff78'
           context.fillText currentPlayer.symbol, x, arrowHeight
+          context.strokeStyle = '#000000'
+          context.strokeText currentPlayer.symbol, x, arrowHeight
 
   randomString = "#{Math.random()}"
   leftArrow = new Image()
