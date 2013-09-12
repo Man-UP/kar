@@ -1,7 +1,7 @@
 /* CSS declarations go here */
 
 .controller {
-  background-color: blue;
+  background-color: #c2c9ff;
   color: white;
   top: 0px;
   bottom: 0px;
@@ -20,6 +20,10 @@
 }
 
 .active {
-  background-color: red;
+  background-color: #ff6667;
+}
+
+.controller img {
+  padding: 20px;
 }
 
