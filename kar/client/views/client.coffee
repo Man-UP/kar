@@ -16,8 +16,6 @@ Template.client.created = ->
     else if e.keyCode == 39
       rightKeyUp()
 
-
-
   Deps.autorun ->
     playerId = Session.get 'playerId'
     player = Players.findOne playerId
@@ -41,8 +39,12 @@ CANVAS_WIDTH = 320
 CANVAS_HEIGHT = 240
 SYMBOL_SIZE = CANVAS_WIDTH / 4
 LIVES_SIZE = CANVAS_WIDTH / 16
+INFO_SIZE = CANVAS_WIDTH / 16
 
 BUTTON_PRESS_BG_COLOR = "c6ffc8"
+
+MESSAGE_TEXT_1 = "COME TO THE MAN-UP MEETING"
+MESSAGE_TEXT_2 = "NEXT WEDNESDAY AT 1PM"
 
 Template.client.rendered = ->
   arrowWidth = CANVAS_WIDTH / 2
@@ -82,18 +84,54 @@ Template.client.rendered = ->
         context.drawImage rightArrow, arrowWidth, 0, arrowWidth, CANVAS_HEIGHT
         context.drawImage leftArrow, 0, 0, arrowWidth,  CANVAS_HEIGHT
         if currentPlayer?
-          x = arrowWidth
-          context.font = "#{SYMBOL_SIZE}px monospace"
-          context.textAlign = 'center'
-          context.fillStyle = '#45ff78'
-          context.fillText currentPlayer.symbol, x, arrowHeight
-          context.strokeStyle = '#000000'
-          context.strokeText currentPlayer.symbol, x, arrowHeight
-          context.font  = "#{LIVES_SIZE}px monospace"
-          context.textAlign = 'left'
-          context.fillStyle = '#cccc78'
-          context.fillText "LIVES: #{currentPlayer.lives}", 0, LIVES_SIZE
-          context.strokeText "LIVES: #{currentPlayer.lives}", 0, LIVES_SIZE
+          if currentPlayer.lives > 0
+            x = arrowWidth
+            context.fillStyle = '#cccc78'
+            context.textAlign = 'center'
+            context.font = "#{INFO_SIZE}px monospace"
+            context.fillText "YOUR SYMBOL IS", x, arrowHeight - SYMBOL_SIZE
+            context.strokeStyle = '#0cc'
+            context.strokeText "YOUR SYMBOL IS", x, arrowHeight - SYMBOL_SIZE
+            context.font = "#{SYMBOL_SIZE}px monospace"
+            context.fillStyle = '#45ff78'
+            context.fillText currentPlayer.symbol, x, arrowHeight
+            context.strokeStyle = '#000000'
+            context.strokeText currentPlayer.symbol, x, arrowHeight
+            context.font  = "#{LIVES_SIZE}px monospace"
+            context.textAlign = 'left'
+            context.fillStyle = '#cccc78'
+            context.fillText "LIVES: #{currentPlayer.lives}", 0, LIVES_SIZE
+            context.strokeText "LIVES: #{currentPlayer.lives}", 0, LIVES_SIZE
+          else
+            context.fillStyle = '#000'
+            context.textAlign = 'center'
+            context.font = "#{INFO_SIZE}px monospace"
+            context.fillRect 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT
+            gameoverText = "Game Over"
+            whoYouWereText = "You played as the #{currentPlayer.symbol}"
+            yourScoreText = "and scored #{currentPlayer.score} points"
+            context.fillStyle = '#ff5478'
+            context.fillText gameoverText, arrowWidth, \
+              arrowHeight - 2 * INFO_SIZE
+            context.fillStyle = '#54ff78'
+            context.fillText whoYouWereText, arrowWidth, arrowHeight
+            context.fillText yourScoreText, arrowWidth, arrowHeight + INFO_SIZE
+            context.fillText MESSAGE_TEXT_1, arrowWidth, \
+              arrowHeight + 2 * INFO_SIZE
+            context.fillText MESSAGE_TEXT_2, arrowWidth, \
+              arrowHeight + 3 * INFO_SIZE
+            context.strokeStyle = '#fff'
+            context.strokeText gameoverText, arrowWidth, \
+              arrowHeight - 2 * INFO_SIZE
+            context.strokeText whoYouWereText, arrowWidth, arrowHeight
+            context.strokeText yourScoreText, arrowWidth, \
+              arrowHeight + INFO_SIZE
+            context.strokeText MESSAGE_TEXT_1, arrowWidth, \
+              arrowHeight + 2 * INFO_SIZE
+            context.strokeText MESSAGE_TEXT_2, arrowWidth, \
+              arrowHeight + 3 * INFO_SIZE
+
+
 
   randomString = "#{Math.random()}"
   leftArrow = new Image()
