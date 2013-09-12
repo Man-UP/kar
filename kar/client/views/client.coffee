@@ -5,10 +5,13 @@ Template.client.created = ->
   Deps.autorun ->
     playerId = Session.get 'playerId'
     player = Players.findOne playerId
-    unless player?
+    unless player? or @calling
       if @handle?
         @handle.stop()
+      @calling = true
       Meteor.call 'register', (error, result) =>
+        # XXX: calling hack to stop repeated registering
+        @calling = false
         if error?
           alert error.reason
         else
