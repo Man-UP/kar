@@ -21,16 +21,41 @@ Template.view.created = ->
 Template.view.rendered = ->
   if @handle?
     return
+
   canvas = @find '.world'
   ctx = canvas.getContext '2d'
-  @handle = Deps.autorun =>
+
+  @handle = Deps.autorun ->
+    game = Games.getGame()
+    world = game.world
+
     width = canvas.width
     height = canvas.height
+
+    cellWidth = width / NUM_COLUMNS
+    cellHeight = height / NUM_ROWS
+    playerY = PLAYER_ROW * cellHeight
+
     ctx.clearRect 0, 0, width, height
-    colWidth = width / NUM_COLUMNS
+
+    for row, rowIndex in world
+      cellY = cellHeight * rowIndex
+      for cell, colIndex in row
+        cellX = cellWidth * colIndex
+        switch cell
+          when ROCK
+            ctx.fillText 'O', cellX, cellY
+
+    playerRow = world[PLAYER_ROW]
     Players.find().forEach (player) ->
-      x = player.column * colWidth
-      ctx.fillText player.symbol, x, 100
+      playerX = player.column * cellWidth
+      symbol = if player.lives == 0
+        'D'
+      else if playerRow[player.column] == ROCK
+        'C'
+      else
+        player.symbol
+      ctx.fillText symbol, playerX, playerY
 
 Template.view.destroyed = ->
   $('body').unbind onKeypress
