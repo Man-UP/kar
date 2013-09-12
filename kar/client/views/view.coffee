@@ -8,6 +8,12 @@ FONT_SIZE = 30
 CANVAS_WIDTH = 640
 CANVAS_HEIGHT = 480
 
+TITLE = 'GTA VI: Man-UP city'
+
+MESSAGE_1 = 'Connect to WiFi "manup"'
+MESSAGE_2 = 'Go to http://manup'
+MESSAGE_3 = 'Avoid enemie "O"s'
+
 onKeypress = (event) ->
   logError = (error) ->
     if error?
@@ -53,13 +59,24 @@ Template.view.rendered = ->
     ctx.clearRect 0, 0, width, height
     ctx.fillStyle = '#000'
 
-    for row, rowIndex in world
-      cellY = cellHeight * rowIndex
-      for cell, colIndex in row
-        cellX = cellWidth * colIndex
-        switch cell
-          when ROCK
-            ctx.fillText 'O', cellX, cellY
+    if game.state != READY
+      for row, rowIndex in world
+        cellY = cellHeight * rowIndex
+        for cell, colIndex in row
+          cellX = cellWidth * colIndex
+          switch cell
+            when ROCK
+              ctx.fillText 'O', cellX, cellY
+    else
+      ctx.textAlign = 'center'
+
+      ctx.font = "#{Math.floor(FONT_SIZE * 1.5)}px monospace"
+      ctx.fillText TITLE, width / 2, height / 2 - 6 * cellHeight
+      ctx.font = "#{FONT_SIZE}px monospace"
+      ctx.fillText MESSAGE_1, width / 2, height / 2 - 2 * cellHeight
+      ctx.fillText MESSAGE_2, width / 2, height / 2
+      ctx.fillText MESSAGE_3, width / 2, height / 2 + 2 * cellHeight
+      ctx.textAlign = 'left'
 
     playerRow = world[PLAYER_ROW]
     Players.find().forEach (player) ->
@@ -71,7 +88,7 @@ Template.view.rendered = ->
         ctx.fillStyle = '#f00'
         player.lives
       else
-        ctx.fillStyle = '#000'
+        ctx.fillStyle = '#00c'
         if game.state != READY
           player.symbol
         else
