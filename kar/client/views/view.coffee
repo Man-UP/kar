@@ -72,7 +72,15 @@ Template.view.rendered = ->
         player.lives
       else
         ctx.fillStyle = '#000'
-        player.symbol
+        if game.state != READY
+          player.symbol
+        else
+          if player.isLeftPressed
+            'L'
+          else if player.isRightPressed
+            'R'
+          else
+            player.symbol
 
       ctx.fillText symbol, playerX, playerY
 
