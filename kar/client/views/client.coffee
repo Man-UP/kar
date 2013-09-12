@@ -4,6 +4,11 @@ Template.client.helpers
     if key == name
       return 'active'
 
+  playerSymbol: ->
+    currentPlayer = Players.findOne Session.get 'playerId'
+    if currentPlayer?
+      return currentPlayer.symbol
+
 updateCurrentPlayer = (doc) ->
   playerId = Session.get 'playerId'
   if playerId?
