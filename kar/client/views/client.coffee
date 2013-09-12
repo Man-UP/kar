@@ -16,8 +16,6 @@ Template.client.created = ->
     else if e.keyCode == 39
       rightKeyUp()
 
-
-
   Deps.autorun ->
     playerId = Session.get 'playerId'
     player = Players.findOne playerId
@@ -41,6 +39,7 @@ CANVAS_WIDTH = 320
 CANVAS_HEIGHT = 240
 SYMBOL_SIZE = CANVAS_WIDTH / 4
 LIVES_SIZE = CANVAS_WIDTH / 16
+INFO_SIZE = CANVAS_WIDTH / 16
 
 BUTTON_PRESS_BG_COLOR = "c6ffc8"
 
@@ -83,8 +82,13 @@ Template.client.rendered = ->
         context.drawImage leftArrow, 0, 0, arrowWidth,  CANVAS_HEIGHT
         if currentPlayer?
           x = arrowWidth
-          context.font = "#{SYMBOL_SIZE}px monospace"
+          context.fillStyle = '#cccc78'
           context.textAlign = 'center'
+          context.font = "#{INFO_SIZE}px monospace"
+          context.fillText "YOUR SYMBOL IS", x, arrowHeight - SYMBOL_SIZE
+          context.strokeStyle = '#0cc'
+          context.strokeText "YOUR SYMBOL IS", x, arrowHeight - SYMBOL_SIZE
+          context.font = "#{SYMBOL_SIZE}px monospace"
           context.fillStyle = '#45ff78'
           context.fillText currentPlayer.symbol, x, arrowHeight
           context.strokeStyle = '#000000'
