@@ -3,7 +3,10 @@ CODE_R  = 114
 
 NUM_COLUMNS = 48
 
-FONT_SIZE = 10
+FONT_SIZE = 30
+
+CANVAS_WIDTH = 640
+CANVAS_HEIGHT = 480
 
 onKeypress = (event) ->
   logError = (error) ->
@@ -25,7 +28,11 @@ Template.view.rendered = ->
     return
 
   canvas = @find '.world'
+  canvas.width = CANVAS_WIDTH
+  canvas.height = CANVAS_HEIGHT
+
   ctx = canvas.getContext '2d'
+  ctx.imageSmoothingEnabled = false
 
   ctx.font = "#{FONT_SIZE}px monospace"
 
@@ -44,6 +51,7 @@ Template.view.rendered = ->
     playerY = PLAYER_ROW * cellHeight
 
     ctx.clearRect 0, 0, width, height
+    ctx.fillStyle = '#000'
 
     for row, rowIndex in world
       cellY = cellHeight * rowIndex
@@ -57,10 +65,13 @@ Template.view.rendered = ->
     Players.find().forEach (player) ->
       playerX = player.column * cellWidth
       symbol = if player.lives == 0
-        'D'
+        ctx.fillStyle = '#900'
+        'X'
       else if playerRow[player.column] == ROCK
-        'C'
+        ctx.fillStyle = '#f00'
+        player.lives
       else
+        ctx.fillStyle = '#000'
         player.symbol
 
       ctx.fillText symbol, playerX, playerY

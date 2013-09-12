@@ -34,7 +34,7 @@ start() {
          "ROOT_URL=${root_url}" \
          MONGO_URL=mongodb://localhost:27017/kar \
          node \
-         bundle/main.js &> /dev/null &
+         bundle/main.js &
 
     # Wait for it to start serving
     until netstat -tln | tr -s ' ' | cut -d ' ' -f 4 | grep -q ':80$'; do
@@ -45,7 +45,7 @@ start() {
     google-chrome --incognito \
                   --kiosk \
                   --user-data=/tmp \
-                  "${root_url}/viewer" &
+                  "${root_url}view" &
 
     # Wait for the viewer window, then fullscreen it.
     until wmctrl -a 'Google Chrome'; do
