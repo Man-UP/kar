@@ -28,6 +28,7 @@ Template.view.rendered = ->
   @handle = Deps.autorun ->
     game = Games.getGame()
     if game.state == FINISHED
+      Games.update GAME_ID, $set: state: VIEWED
       Router.go 'scoreboard'
     world = game.world
 
@@ -60,5 +61,5 @@ Template.view.rendered = ->
       ctx.fillText symbol, playerX, playerY
 
 Template.view.destroyed = ->
-  $('body').unbind onKeypress
+  $('body').unbind 'keypress', onKeypress
 

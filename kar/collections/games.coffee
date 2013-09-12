@@ -3,6 +3,7 @@
 @READY = 0
 @STARTED = 1
 @FINISHED =  2
+@VIEWED = 3
 
 @MAX_PLAYERS = 48
 @NUM_COLUMNS = 48
@@ -13,19 +14,32 @@
 @ROCK = 1
 
 @TURN_DURATION_MS = 100
-@ROCK_PROB = 0.005
 
 @Games = new Meteor.Collection 'games'
 
 GameState =
   mainLoopHandle: null
 
+Games.createGame = ->
+  world = for _ in [0...NUM_ROWS]
+    for _ in [0...NUM_COLUMNS]
+      EMPTY
+
+  # Create new game
+  Games.insert
+    _id: GAME_ID
+    numPlayers: 0
+    numTurns: 0
+    rockProb: 0.005
+    state: READY
+    world: world
+
 Games.tryGetGame = ->
   Games.findOne GAME_ID
 
 Games.getGame = ->
   until game = Games.tryGetGame()
-    Meteor.call 'reset'
+    Games.createGame()
   game
 
 Meteor.methods
@@ -33,17 +47,6 @@ Meteor.methods
     ensureMainLoopStopped()
     Players.remove {}
     Games.remove GAME_ID
-
-    world = for _ in [0...NUM_ROWS]
-      for _ in [0...NUM_COLUMNS]
-        EMPTY
-
-    # Create new game
-    Games.insert
-      _id: GAME_ID
-      numPlayers: 0
-      state: READY
-      world: world
 
   'start': ->
     game = Games.getGame()
@@ -77,7 +80,7 @@ mainLoop = ->
   newRow = for _ in [0...NUM_COLUMNS]
     p = Math.random()
     switch
-      when p < ROCK_PROB then ROCK
+      when p < game.rockProb then ROCK
       else EMPTY
 
   world.unshift newRow
@@ -86,6 +89,9 @@ mainLoop = ->
   Games.update GAME_ID,
     $set:
       world: world
+    $inc:
+      numTurns: 1
+      rockProb: 0.0001
 
   # Check for collisions
   playerRow = world[PLAYER_ROW]
