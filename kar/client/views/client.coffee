@@ -1,8 +1,30 @@
+Template.client.created = ->
+  Deps.autorun ->
+    playerId = Session.get 'playerId'
+    player = Players.findOne playerId
+    unless player?
+      if @handle?
+        @handle.stop()
+      Meteor.call 'register', (error, result) =>
+        if error?
+          alert error.reason
+        else
+          Session.set 'playerId', result
+          players = Players.find(result)
+          @handle = players.observeChanges
+            removed: ->
+              Session.set 'playerId', null
+
 Template.client.helpers
   isActive: (name) ->
     key = Session.get 'key'
     if key == name
       return 'active'
+
+  playerSymbol: ->
+    currentPlayer = Players.findOne Session.get 'playerId'
+    if currentPlayer?
+      return currentPlayer.symbol
 
 updateCurrentPlayer = (doc) ->
   playerId = Session.get 'playerId'
