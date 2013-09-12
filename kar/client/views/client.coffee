@@ -43,6 +43,9 @@ INFO_SIZE = CANVAS_WIDTH / 16
 
 BUTTON_PRESS_BG_COLOR = "c6ffc8"
 
+MESSAGE_TEXT_1 = "COME TO THE MAN-UP MEETING"
+MESSAGE_TEXT_2 = "NEXT WEDNESDAY AT 1PM"
+
 Template.client.rendered = ->
   arrowWidth = CANVAS_WIDTH / 2
   arrowHeight = CANVAS_HEIGHT / 2
@@ -106,19 +109,27 @@ Template.client.rendered = ->
             context.fillRect 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT
             gameoverText = "Game Over"
             whoYouWereText = "You played as the #{currentPlayer.symbol}"
-            yourScoreText = "and score #{currentPlayer.score} points"
+            yourScoreText = "and scored #{currentPlayer.score} points"
             context.fillStyle = '#ff5478'
             context.fillText gameoverText, arrowWidth, \
               arrowHeight - 2 * INFO_SIZE
             context.fillStyle = '#54ff78'
             context.fillText whoYouWereText, arrowWidth, arrowHeight
             context.fillText yourScoreText, arrowWidth, arrowHeight + INFO_SIZE
+            context.fillText MESSAGE_TEXT_1, arrowWidth, \
+              arrowHeight + 2 * INFO_SIZE
+            context.fillText MESSAGE_TEXT_2, arrowWidth, \
+              arrowHeight + 3 * INFO_SIZE
             context.strokeStyle = '#fff'
             context.strokeText gameoverText, arrowWidth, \
               arrowHeight - 2 * INFO_SIZE
             context.strokeText whoYouWereText, arrowWidth, arrowHeight
             context.strokeText yourScoreText, arrowWidth, \
               arrowHeight + INFO_SIZE
+            context.strokeText MESSAGE_TEXT_1, arrowWidth, \
+              arrowHeight + 2 * INFO_SIZE
+            context.strokeText MESSAGE_TEXT_2, arrowWidth, \
+              arrowHeight + 3 * INFO_SIZE
 
 
 

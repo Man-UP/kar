@@ -5,9 +5,9 @@
 
 standard-app-packages
 autopublish
-insecure
 preserve-inputs
 coffeescript
 iron-router
 spin
 fastclick
+insecure
