@@ -3,7 +3,10 @@ CODE_R  = 114
 
 NUM_COLUMNS = 48
 
-FONT_SIZE = 10
+FONT_SIZE = 30
+
+CANVAS_WIDTH = 640
+CANVAS_HEIGHT = 480
 
 onKeypress = (event) ->
   logError = (error) ->
@@ -25,7 +28,11 @@ Template.view.rendered = ->
     return
 
   canvas = @find '.world'
+  canvas.width = CANVAS_WIDTH
+  canvas.height = CANVAS_HEIGHT
+
   ctx = canvas.getContext '2d'
+  ctx.imageSmoothingEnabled = false
 
   ctx.font = "#{FONT_SIZE}px monospace"
 
