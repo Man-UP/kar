@@ -81,23 +81,46 @@ Template.client.rendered = ->
         context.drawImage rightArrow, arrowWidth, 0, arrowWidth, CANVAS_HEIGHT
         context.drawImage leftArrow, 0, 0, arrowWidth,  CANVAS_HEIGHT
         if currentPlayer?
-          x = arrowWidth
-          context.fillStyle = '#cccc78'
-          context.textAlign = 'center'
-          context.font = "#{INFO_SIZE}px monospace"
-          context.fillText "YOUR SYMBOL IS", x, arrowHeight - SYMBOL_SIZE
-          context.strokeStyle = '#0cc'
-          context.strokeText "YOUR SYMBOL IS", x, arrowHeight - SYMBOL_SIZE
-          context.font = "#{SYMBOL_SIZE}px monospace"
-          context.fillStyle = '#45ff78'
-          context.fillText currentPlayer.symbol, x, arrowHeight
-          context.strokeStyle = '#000000'
-          context.strokeText currentPlayer.symbol, x, arrowHeight
-          context.font  = "#{LIVES_SIZE}px monospace"
-          context.textAlign = 'left'
-          context.fillStyle = '#cccc78'
-          context.fillText "LIVES: #{currentPlayer.lives}", 0, LIVES_SIZE
-          context.strokeText "LIVES: #{currentPlayer.lives}", 0, LIVES_SIZE
+          if currentPlayer.lives > 0
+            x = arrowWidth
+            context.fillStyle = '#cccc78'
+            context.textAlign = 'center'
+            context.font = "#{INFO_SIZE}px monospace"
+            context.fillText "YOUR SYMBOL IS", x, arrowHeight - SYMBOL_SIZE
+            context.strokeStyle = '#0cc'
+            context.strokeText "YOUR SYMBOL IS", x, arrowHeight - SYMBOL_SIZE
+            context.font = "#{SYMBOL_SIZE}px monospace"
+            context.fillStyle = '#45ff78'
+            context.fillText currentPlayer.symbol, x, arrowHeight
+            context.strokeStyle = '#000000'
+            context.strokeText currentPlayer.symbol, x, arrowHeight
+            context.font  = "#{LIVES_SIZE}px monospace"
+            context.textAlign = 'left'
+            context.fillStyle = '#cccc78'
+            context.fillText "LIVES: #{currentPlayer.lives}", 0, LIVES_SIZE
+            context.strokeText "LIVES: #{currentPlayer.lives}", 0, LIVES_SIZE
+          else
+            context.fillStyle = '#000'
+            context.textAlign = 'center'
+            context.font = "#{INFO_SIZE}px monospace"
+            context.fillRect 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT
+            gameoverText = "Game Over"
+            whoYouWereText = "You played as the #{currentPlayer.symbol}"
+            yourScoreText = "and score #{currentPlayer.score} points"
+            context.fillStyle = '#ff5478'
+            context.fillText gameoverText, arrowWidth, \
+              arrowHeight - 2 * INFO_SIZE
+            context.fillStyle = '#54ff78'
+            context.fillText whoYouWereText, arrowWidth, arrowHeight
+            context.fillText yourScoreText, arrowWidth, arrowHeight + INFO_SIZE
+            context.strokeStyle = '#fff'
+            context.strokeText gameoverText, arrowWidth, \
+              arrowHeight - 2 * INFO_SIZE
+            context.strokeText whoYouWereText, arrowWidth, arrowHeight
+            context.strokeText yourScoreText, arrowWidth, \
+              arrowHeight + INFO_SIZE
+
+
 
   randomString = "#{Math.random()}"
   leftArrow = new Image()

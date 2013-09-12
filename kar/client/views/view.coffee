@@ -3,6 +3,8 @@ CODE_R  = 114
 
 NUM_COLUMNS = 48
 
+FONT_SIZE = 10
+
 onKeypress = (event) ->
   logError = (error) ->
     if error?
@@ -24,6 +26,8 @@ Template.view.rendered = ->
 
   canvas = @find '.world'
   ctx = canvas.getContext '2d'
+
+  ctx.font = "#{FONT_SIZE}px monospace"
 
   @handle = Deps.autorun ->
     game = Games.getGame()
@@ -58,6 +62,7 @@ Template.view.rendered = ->
         'C'
       else
         player.symbol
+
       ctx.fillText symbol, playerX, playerY
 
 Template.view.destroyed = ->
