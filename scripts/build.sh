@@ -28,7 +28,7 @@ if [[ "${#}" != 0 ]]; then
 fi
 unset usage
 
-repo=$(realpath "$(dirname "$(realpath -- "${BASH_SOURCE[0]}")")/..")
+repo=$(readlink -f "$(dirname "$(readlink -f -- "${BASH_SOURCE[0]}")")/..")
 bundle=${repo}/bundle.tar.gz
 
 cd -- "${repo}"
