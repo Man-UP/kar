@@ -12,6 +12,8 @@ SYSTEM_PACKAGES=(
     'curl'
     'git'
     'google-chrome'
+    'mongodb-server'
+    'wmctrl'
     'xdotool'
 )
 
