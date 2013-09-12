@@ -1,9 +1,7 @@
-Template.view.helpers
-  players: ->
-    Players.find()
-
 CODE_CR = 13
-CODE_R = 114
+CODE_R  = 114
+
+NUM_COLUMNS = 48
 
 onKeypress = (event) ->
   logError = (error) ->
@@ -19,6 +17,20 @@ onKeypress = (event) ->
 
 Template.view.created = ->
   $('body').on 'keypress', onKeypress
+
+Template.view.rendered = ->
+  if @handle?
+    return
+  canvas = @find '.world'
+  ctx = canvas.getContext '2d'
+  @handle = Deps.autorun =>
+    width = canvas.width
+    height = canvas.height
+    ctx.clearRect 0, 0, width, height
+    colWidth = width / NUM_COLUMNS
+    Players.find().forEach (player) ->
+      x = player.column * colWidth
+      ctx.fillText player.symbol, x, 100
 
 Template.view.destroyed = ->
   $('body').unbind onKeypress

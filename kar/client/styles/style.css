@@ -1,5 +1,3 @@
-/* CSS declarations go here */
-
 .controller {
   background-color: #c2c9ff;
   color: white;
@@ -7,6 +5,10 @@
   bottom: 0px;
   text-align: center;
   width: 50%;
+}
+
+.controller img {
+  padding: 20px;
 }
 
 .left {
@@ -23,7 +25,8 @@
   background-color: #ff6667;
 }
 
-.controller img {
-  padding: 20px;
+.world {
+  width: 100%;
+  height: 100%;
 }
 
