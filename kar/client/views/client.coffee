@@ -70,6 +70,8 @@ Template.client.rendered = ->
   context = canvas.getContext '2d'
   context.imageSmoothingEnabled = false
 
+  lostLifeAudio = @find '#lost-life'
+
   counter = 2
   updateCounter = ->
     counter -= 1
@@ -88,6 +90,8 @@ Template.client.rendered = ->
             @lives = currentPlayer.lives
           else
             if @lives > currentPlayer.lives
+              # Player has lost a life
+              lostLifeAudio.play()
               @lives = currentPlayer.lives
               context.fillStyle = '#ff0000'
               context.fillRect 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT
