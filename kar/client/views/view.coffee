@@ -22,6 +22,9 @@ onKeypress = (event) ->
     when CODE_CR
       console.log 'Starting game'
       Meteor.call 'start', logError
+      musicAudio = document.getElementById 'music'
+      musicAudio.play()
+
     when CODE_R
       console.log 'Resetting'
       Meteor.call 'reset', logError
@@ -41,6 +44,7 @@ Template.view.rendered = ->
   ctx.imageSmoothingEnabled = false
 
   explosionAudio = @find '#explosion'
+  deadAudio = @find '#dead'
 
   ctx.font = "#{FONT_SIZE}px monospace"
 
@@ -85,6 +89,9 @@ Template.view.rendered = ->
       playerX = player.column * cellWidth
       symbol = if player.lives == 0
         ctx.fillStyle = '#900'
+        if game.state != VIEWED
+          if player.score == game.numTurns
+            dead.play()
         'X'
       else if playerRow[player.column] == ROCK
         ctx.fillStyle = '#f00'
@@ -106,4 +113,7 @@ Template.view.rendered = ->
 
 Template.view.destroyed = ->
   $('body').unbind 'keypress', onKeypress
+  musicAudio = document.getElementById 'music'
+  musicAudio.pause()
+  musicAudio.currentTime = 0
 
