@@ -121,7 +121,7 @@ Template.client.rendered = ->
             context.fillRect 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT
             gameoverText = "Game Over"
             whoYouWereText = "You played as the #{currentPlayer.symbol}"
-            yourScoreText = "and scored #{currentPlayer.score} points"
+            yourScoreText = "and raced #{currentPlayer.score} metres"
             context.fillStyle = '#ff5478'
             context.fillText gameoverText, arrowWidth, \
               arrowHeight - 2 * INFO_SIZE

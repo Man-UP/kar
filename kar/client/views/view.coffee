@@ -40,6 +40,8 @@ Template.view.rendered = ->
   ctx = canvas.getContext '2d'
   ctx.imageSmoothingEnabled = false
 
+  explosionAudio = @find '#explosion'
+
   ctx.font = "#{FONT_SIZE}px monospace"
 
   @handle = Deps.autorun ->
@@ -86,6 +88,7 @@ Template.view.rendered = ->
         'X'
       else if playerRow[player.column] == ROCK
         ctx.fillStyle = '#f00'
+        explosionAudio.play()
         player.lives
       else
         ctx.fillStyle = '#00c'
