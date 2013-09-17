@@ -14,6 +14,8 @@ MESSAGE_1 = 'Connect to WiFi "manup"'
 MESSAGE_2 = 'Go to http://manup'
 MESSAGE_3 = 'Avoid enemie "O"s'
 
+ROCK_TRAIL = 1
+
 onKeypress = (event) ->
   logError = (error) ->
     if error?
@@ -28,6 +30,9 @@ onKeypress = (event) ->
     when CODE_R
       console.log 'Resetting'
       Meteor.call 'reset', logError
+      musicAudio = document.getElementById 'music'
+      musicAudio.pause()
+      musicAudio.currentTime = 0
 
 Template.view.created = ->
   $('body').on 'keypress', onKeypress
@@ -69,10 +74,30 @@ Template.view.rendered = ->
       for row, rowIndex in world
         cellY = cellHeight * rowIndex
         for cell, colIndex in row
+          ctx.fillStyle = '#000000'
           cellX = cellWidth * colIndex
           switch cell
             when ROCK
               ctx.fillText 'O', cellX, cellY
+              # Draw trails after rocks if ROCK_TRAIL > 1
+              start_colour = 8
+              rock_trail_inc = Math.ceil(7 / ROCK_TRAIL)
+              for i in [1...ROCK_TRAIL]
+                prevRowIndex = rowIndex - i
+                if prevRowIndex < 0
+                  continue
+                prevCell = world[prevRowIndex][colIndex]
+                if prevCell == ROCK
+                  continue
+                start_colour += rock_trail_inc
+                start_colour_hex = start_colour.toString(16)
+                cellY = cellHeight * prevRowIndex
+                ctx.fillStyle = \
+                  "##{start_colour_hex}#{start_colour_hex}#{start_colour_hex}"
+                ctx.fillText 'O', cellX, cellY
+
+
+
     else
       ctx.textAlign = 'center'
 
