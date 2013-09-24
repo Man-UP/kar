@@ -11,7 +11,7 @@ NODE_GLOBAL_PACKAGES=(
 SYSTEM_PACKAGES=(
     'curl'
     'git'
-    'google-chrome'
+    'google-chrome-stable'
     'mongodb-server'
     'wmctrl'
     'xdotool'
